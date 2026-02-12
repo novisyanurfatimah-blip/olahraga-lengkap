@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitLife Pro - Sahabat Sehat Remaja</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
+        
+        :root {
+            --primary: #22c55e;
+            --primary-dark: #16a34a;
+            --accent: #facc15;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #22c55e; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800">
+
+    <!-- Notifikasi Toast (Hidden by default) -->
+    <div id="notification" class="fixed top-24 right-4 z-[100] transform translate-x-full transition-transform duration-500 ease-out">
+        <div class="bg-white border-l-4 border-green-500 shadow-xl p-4 rounded-r-xl flex items-center space-x-3 min-w-[300px]">
+            <div class="bg-green-100 p-2 rounded-full text-green-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+            </div>
+            <div>
+                <p class="font-bold text-sm">Pengingat Sehat!</p>
+                <p class="text-xs text-slate-500" id="notif-message">Waktunya minum air putih.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigasi -->
+    <nav class="sticky top-0 z-50 glass border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2 cursor-pointer group" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                <div class="w-10 h-10 bg-green-500 rounded-2xl flex items-center justify-center text-white rotate-3 group-hover:rotate-12 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <span class="text-2xl font-extrabold tracking-tighter gradient-text">FitLife<span class="text-slate-900">Pro</span></span>
+            </div>
+            <div class="hidden lg:flex space-x-8 text-sm font-bold text-slate-500">
+                <a href="#progres" class="hover:text-green-600 transition">Progres</a>
+                <a href="#olahraga" class="hover:text-green-600 transition">Olahraga</a>
+                <a href="#nutrisi" class="hover:text-green-600 transition">Nutrisi</a>
+                <a href="#keamanan" class="hover:text-green-600 transition">Tips Aman</a>
+                <a href="#jurnal" class="bg-green-600 text-white px-5 py-2 rounded-full hover:bg-green-700 transition shadow-md">Buka Jurnal</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-20 pb-32 px-6 overflow-hidden bg-white">
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-green-100 rounded-full blur-3xl opacity-50"></div>
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="z-10 text-center lg:text-left">
+                <span class="inline-block px-4 py-2 bg-green-100 text-green-700 rounded-full text-xs font-bold uppercase tracking-widest mb-6">🚀 Edisi Remaja Sehat 2024</span>
+                <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-6">Jadikan Dirimu <br><span class="gradient-text">Versi Terbaik</span></h1>
+                <p class="text-lg text-slate-500 mb-10 max-w-lg">Bukan tentang seberapa cepat, tapi tentang seberapa konsisten. Mulai hari ini, catat progresmu, dan raih tubuh impianmu.</p>
+                <div class="flex flex-wrap justify-center lg:justify-start gap-4">
+                    <button onclick="document.getElementById('jurnal').scrollIntoView({behavior:'smooth'})" class="px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold shadow-xl hover:bg-slate-800 transition transform hover:-translate-y-1">Mulai Sekarang</button>
+                    <button onclick="setReminder()" class="px-8 py-4 bg-white text-slate-900 border-2 border-slate-100 rounded-2xl font-bold hover:border-green-500 transition transform hover:-translate-y-1 flex items-center gap-2">
+                        <span>⏰ Set Pengingat</span>
+                    </button>
+                </div>
+            </div>
+            <div class="relative flex justify-center">
+                <div class="animate-float relative w-full max-w-md aspect-square bg-gradient-to-br from-green-400 to-green-600 rounded-[3rem] shadow-2xl flex items-center justify-center overflow-hidden">
+                    <span class="text-9xl">🏃‍♂️</span>
+                    <div class="absolute bottom-6 left-6 right-6 p-4 glass rounded-2xl">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-lg">🔥</div>
+                            <div>
+                                <p class="text-[10px] uppercase font-black text-slate-400">Total Kalori Minggu Ini</p>
+                                <p class="font-bold text-slate-900" id="hero-calories">1,240 kkal</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 -mt-16 space-y-24 relative z-20">
+
+        <!-- Section: Progres & Target -->
+        <section id="progres" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="md:col-span-2 bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+                <div class="flex justify-between items-end mb-8">
+                    <div>
+                        <h2 class="text-2xl font-extrabold mb-1">Target Mingguan</h2>
+                        <p class="text-slate-400 text-sm">Selesaikan 150 menit olahraga untuk tetap bugar!</p>
+                    </div>
+                    <div class="text-right">
+                        <span id="progress-percent" class="text-4xl font-black text-green-500">0%</span>
+                    </div>
+                </div>
+                <div class="relative h-6 w-full bg-slate-100 rounded-full overflow-hidden mb-6">
+                    <div id="progress-bar" class="absolute top-0 left-0 h-full bg-gradient-to-r from-green-400 to-green-600 transition-all duration-1000 ease-out" style="width: 0%"></div>
+                </div>
+                <div class="flex justify-between text-sm font-bold">
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                        <span id="current-minutes">0 Menit</span>
+                    </div>
+                    <span class="text-slate-300">Target: 150 Menit</span>
+                </div>
+            </div>
+            <div class="bg-slate-900 p-8 rounded-[2.5rem] text-white flex flex-col justify-between">
+                <h3 class="text-xl font-bold">Status Lencana</h3>
+                <div class="flex justify-around py-4" id="badge-display">
+                    <div class="text-center opacity-30 grayscale" id="b-1">
+                        <div class="text-4xl mb-1">🐣</div>
+                        <p class="text-[10px] font-bold">Newbie</p>
+                    </div>
+                    <div class="text-center opacity-30 grayscale" id="b-2">
+                        <div class="text-4xl mb-1">🐉</div>
+                        <p class="text-[10px] font-bold">Active</p>
+                    </div>
+                    <div class="text-center opacity-30 grayscale" id="b-3">
+                        <div class="text-4xl mb-1">👑</div>
+                        <p class="text-[10px] font-bold">Legend</p>
+                    </div>
+                </div>
+                <p class="text-[11px] text-slate-400 text-center leading-relaxed italic">"Disiplin adalah jembatan antara cita-cita dan pencapaian."</p>
+            </div>
+        </section>
+
+        <!-- Section: Daftar Jenis Olahraga (Mode Filter) -->
+        <section id="olahraga" class="space-y-10">
+            <div class="flex flex-col md:flex-row justify-between items-end gap-6">
+                <div class="max-w-lg">
+                    <h2 class="text-4xl font-extrabold mb-4">Pilih Aktivitasmu</h2>
+                    <p class="text-slate-500">Klik jenis olahraga untuk melihat detail kalori dan panduannya.</p>
+                </div>
+                <div class="flex gap-2 bg-slate-100 p-1.5 rounded-2xl">
+                    <button onclick="filterSports('semua')" id="btn-semua" class="px-6 py-2 rounded-xl text-sm font-bold bg-white shadow-sm transition">Semua</button>
+                    <button onclick="filterSports('pemula')" id="btn-pemula" class="px-6 py-2 rounded-xl text-sm font-bold text-slate-500 hover:bg-white hover:text-slate-900 transition">Mode Pemula</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="sport-grid">
+                <!-- Olahraga akan dirender via JS -->
+            </div>
+        </section>
+
+        <!-- Section: Nutrisi (Makanan Sehat) -->
+        <section id="nutrisi" class="bg-blue-50 rounded-[3rem] p-10 lg:p-16 border border-blue-100">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-blue-900 mb-6">🥑 Nutrisi & Makanan</h2>
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-3xl shadow-sm hover:shadow-md transition">
+                            <h4 class="font-bold text-blue-700 flex items-center gap-2 mb-2">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full"></span> Sebelum Olahraga
+                            </h4>
+                            <p class="text-sm text-slate-600 leading-relaxed">Pilih karbohidrat ringan yang mudah dicerna seperti <b>Pisang</b> atau <b>Roti Gandum</b> 30-60 menit sebelum mulai.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl shadow-sm hover:shadow-md transition">
+                            <h4 class="font-bold text-green-700 flex items-center gap-2 mb-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full"></span> Sesudah Olahraga
+                            </h4>
+                            <p class="text-sm text-slate-600 leading-relaxed">Fokus pada protein untuk perbaikan otot, seperti <b>Telur Rebus</b>, <b>Dada Ayam</b>, atau <b>Susu Cokelat</b>.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-[2.5rem] shadow-xl space-y-8">
+                    <h3 class="text-xl font-bold text-center mb-4">💧 Water Tracker</h3>
+                    <div class="flex justify-center gap-4 flex-wrap" id="water-cups">
+                        <!-- Cups added via JS -->
+                    </div>
+                    <div class="text-center">
+                        <p class="text-xs font-bold text-slate-400 uppercase mb-2">Target Harian: 8 Gelas</p>
+                        <button onclick="addWater()" class="bg-blue-600 text-white w-full py-4 rounded-2xl font-bold hover:bg-blue-700 transition shadow-lg active:scale-95">Minum 1 Gelas</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Keamanan (Pemanasan & Pendinginan) -->
+        <section id="keamanan" class="space-y-12">
+            <h2 class="text-3xl font-extrabold text-center">Tips Olahraga Aman</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="p-8 bg-orange-50 rounded-3xl border border-orange-100">
+                    <div class="text-5xl mb-6">🧘‍♂️</div>
+                    <h3 class="text-xl font-bold text-orange-900 mb-2">Pemanasan</h3>
+                    <p class="text-sm text-orange-700">Lakukan 5-10 menit sebelum mulai. Fokus pada gerakan dinamis untuk "membangunkan" otot.</p>
+                </div>
+                <div class="p-8 bg-red-50 rounded-3xl border border-red-100">
+                    <div class="text-5xl mb-6">⚠️</div>
+                    <h3 class="text-xl font-bold text-red-900 mb-2">Dengarkan Tubuh</h3>
+                    <p class="text-sm text-red-700">Jangan dipaksakan jika merasa pusing atau nyeri yang tajam. Istirahat sejenak sangat penting.</p>
+                </div>
+                <div class="p-8 bg-green-50 rounded-3xl border border-green-100">
+                    <div class="text-5xl mb-6">🌬️</div>
+                    <h3 class="text-xl font-bold text-green-900 mb-2">Pendinginan</h3>
+                    <p class="text-sm text-green-700">Lakukan peregangan statis setelah selesai agar detak jantung kembali normal dan mencegah kaku otot.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Jurnal Catatan -->
+        <section id="jurnal" class="bg-white p-10 rounded-[3rem] shadow-xl border border-slate-100 mb-24">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
+                <div>
+                    <h2 class="text-3xl font-extrabold">Jurnal Aktivitas</h2>
+                    <p class="text-slate-400 text-sm">Lihat sejarah perjuangan sehatmu di sini.</p>
+                </div>
+                <button onclick="toggleModal()" class="bg-slate-900 text-white px-8 py-3 rounded-2xl font-bold hover:bg-slate-800 transition flex items-center gap-2 active:scale-95">
+                    <span>+</span> Tambah Aktivitas
+                </button>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] border-b border-slate-100">
+                            <th class="pb-6">Tanggal</th>
+                            <th class="pb-6">Jenis</th>
+                            <th class="pb-6">Durasi</th>
+                            <th class="pb-6">Est. Kalori</th>
+                            <th class="pb-6">Mood</th>
+                            <th class="pb-6 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="log-list" class="divide-y divide-slate-50 text-sm">
+                        <!-- Logs rendered via JS -->
+                    </tbody>
+                </table>
+                <div id="no-data" class="hidden py-16 text-center text-slate-300">
+                    <p>Belum ada aktivitas. Yuk, mulai hari ini!</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Form -->
+    <div id="modal" class="fixed inset-0 bg-slate-900/60 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white w-full max-w-lg rounded-[2.5rem] p-10 shadow-2xl transform scale-90 transition-all duration-300" id="modal-box">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-2xl font-extrabold">Catat Olahraga</h3>
+                <button onclick="toggleModal()" class="text-slate-400 hover:text-slate-600">&times;</button>
+            </div>
+            <form id="sport-form" class="space-y-6">
+                <div>
+                    <label class="block text-xs font-black uppercase text-slate-400 mb-2">Nama Olahraga</label>
+                    <select id="f-type" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-green-500 transition font-medium">
+                        <!-- Options filled via JS -->
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-black uppercase text-slate-400 mb-2">Durasi (Menit)</label>
+                        <input type="number" id="f-dur" value="30" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-green-500 transition font-bold text-center">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black uppercase text-slate-400 mb-2">Mood Kamu</label>
+                        <select id="f-mood" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-green-500 transition text-center">
+                            <option value="😊">Senang</option>
+                            <option value="🔥">Semangat</option>
+                            <option value="🥱">Lelah</option>
+                            <option value="🥵">Panas!</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-black uppercase text-slate-400 mb-2">Tanggal</label>
+                    <input type="date" id="f-date" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-green-500 transition">
+                </div>
+                <button type="submit" class="w-full bg-green-600 text-white py-4 rounded-2xl font-extrabold shadow-lg hover:bg-green-700 transition active:scale-95">Simpan & Hitung Kalori</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white py-20 px-6 border-t border-slate-100 text-center">
+        <div class="max-w-7xl mx-auto">
+            <p class="text-2xl font-black mb-2 gradient-text">FitLife Pro</p>
+            <p class="text-slate-400 text-sm mb-8">Hidup Sehat, Masa Depan Hebat.</p>
+            <div class="flex justify-center gap-6 text-slate-400 text-xs">
+                <span>© 2024 Aplikasi Kesehatan Remaja</span>
+                <span class="cursor-pointer hover:text-green-600 transition">Panduan Keamanan</span>
+                <span class="cursor-pointer hover:text-green-600 transition">Dukungan</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Data Olahraga Master
+        const masterSports = [
+            { id: 1, name: "Jalan Santai", icon: "🚶", calPerMin: 4, type: "pemula", desc: "Cocok untuk pemulihan dan setelah belajar." },
+            { id: 2, name: "Jogging", icon: "🏃", calPerMin: 8, type: "semua", desc: "Bagus untuk stamina dan daya tahan tubuh." },
+            { id: 3, name: "Bersepeda", icon: "🚲", calPerMin: 6, type: "pemula", desc: "Melatih kaki sambil menikmati udara segar." },
+            { id: 4, name: "Lompat Tali", icon: "🪢", calPerMin: 12, type: "semua", desc: "Efektif bakar kalori dan melatih koordinasi." },
+            { id: 5, name: "Berenang", icon: "🏊", calPerMin: 10, type: "semua", desc: "Melatih seluruh otot tanpa beban di sendi." },
+            { id: 6, name: "Badminton", icon: "🏸", calPerMin: 7, type: "semua", desc: "Seru dimainkan bareng teman sekolah." },
+            { id: 7, name: "Yoga", icon: "🧘‍♀️", calPerMin: 3, type: "pemula", desc: "Bagus untuk fleksibilitas dan ketenangan." },
+            { id: 8, name: "Pushup/Squat", icon: "💪", calPerMin: 5, type: "pemula", desc: "Latihan beban tubuh sederhana di rumah." }
+        ];
+
+        // Global State
+        let logs = JSON.parse(localStorage.getItem('fitlife_logs_v5')) || [];
+        let waterCount = parseInt(localStorage.getItem('fitlife_water')) || 0;
+        let currentFilter = 'semua';
+
+        // Elements
+        const sportGrid = document.getElementById('sport-grid');
+        const logList = document.getElementById('log-list');
+        const noData = document.getElementById('no-data');
+        const modal = document.getElementById('modal');
+        const modalBox = document.getElementById('modal-box');
+        const sportForm = document.getElementById('sport-form');
+        const notification = document.getElementById('notification');
+
+        // Init App
+        function init() {
+            renderSports();
+            renderLogs();
+            renderWater();
+            updateDashboard();
+            fillFormOptions();
+        }
+
+        // Dashboard Logic
+        function updateDashboard() {
+            const target = 150;
+            const totalMinutes = logs.reduce((acc, l) => acc + parseInt(l.duration), 0);
+            const totalCalories = logs.reduce((acc, l) => acc + parseInt(l.calories), 0);
+            
+            const percent = Math.min((totalMinutes / target) * 100, 100);
+            
+            document.getElementById('progress-bar').style.width = percent + '%';
+            document.getElementById('progress-percent').innerText = Math.round(percent) + '%';
+            document.getElementById('current-minutes').innerText = totalMinutes + ' Menit';
+            document.getElementById('hero-calories').innerText = totalCalories.toLocaleString() + ' kkal';
+
+            // Badge Update
+            if (logs.length >= 1) document.getElementById('b-1').classList.remove('opacity-30', 'grayscale');
+            if (logs.length >= 5 || totalMinutes >= 150) document.getElementById('b-2').classList.remove('opacity-30', 'grayscale');
+            if (logs.length >= 10 || totalCalories >= 2000) document.getElementById('b-3').classList.remove('opacity-30', 'grayscale');
+        }
+
+        // Sports Section
+        function filterSports(type) {
+            currentFilter = type;
+            renderSports();
+            
+            // UI Button styling
+            ['semua', 'pemula'].forEach(id => {
+                const btn = document.getElementById('btn-' + id);
+                if (id === type) {
+                    btn.classList.add('bg-white', 'shadow-sm', 'text-slate-900');
+                    btn.classList.remove('text-slate-500');
+                } else {
+                    btn.classList.remove('bg-white', 'shadow-sm', 'text-slate-900');
+                    btn.classList.add('text-slate-500');
+                }
+            });
+        }
+
+        function renderSports() {
+            const filtered = currentFilter === 'semua' ? masterSports : masterSports.filter(s => s.type === 'pemula');
+            sportGrid.innerHTML = filtered.map(s => `
+                <div class="bg-white p-8 rounded-[2rem] border border-slate-100 card-hover group cursor-pointer" onclick="quickSelect('${s.name}')">
+                    <div class="text-4xl mb-6 bg-slate-50 w-16 h-16 rounded-2xl flex items-center justify-center group-hover:bg-green-50 transition">${s.icon}</div>
+                    <h4 class="font-extrabold text-lg mb-2">${s.name}</h4>
+                    <p class="text-xs text-slate-400 mb-6 leading-relaxed">${s.desc}</p>
+                    <div class="flex justify-between items-center pt-4 border-t border-slate-50">
+                        <span class="text-[10px] font-bold text-green-600 uppercase">⚡ ${s.calPerMin} kkal / mnt</span>
+                        <div class="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition">&rarr;</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function quickSelect(name) {
+            toggleModal();
+            document.getElementById('f-type').value = name;
+        }
+
+        // Water Tracking
+        function renderWater() {
+            const container = document.getElementById('water-cups');
+            container.innerHTML = '';
+            for(let i=1; i<=8; i++) {
+                const isFull = i <= waterCount;
+                container.innerHTML += `
+                    <div class="text-3xl transition-all duration-300 ${isFull ? 'scale-110' : 'opacity-20 scale-90 grayscale'}">
+                        ${isFull ? '🥛' : '🥤'}
+                    </div>
+                `;
+            }
+        }
+
+        function addWater() {
+            if (waterCount < 8) {
+                waterCount++;
+                localStorage.setItem('fitlife_water', waterCount);
+                renderWater();
+                showNotif("Mangat! Gelas ke-" + waterCount + " diamankan. 💧");
+            } else {
+                showNotif("Hebat! Target air minum harianmu tercapai. ✨");
+            }
+        }
+
+        // Log Logic
+        function renderLogs() {
+            if (logs.length === 0) {
+                logList.innerHTML = '';
+                noData.classList.remove('hidden');
+            } else {
+                noData.classList.add('hidden');
+                logList.innerHTML = logs.map((log, idx) => `
+                    <tr class="group hover:bg-slate-50/50 transition">
+                        <td class="py-6 font-semibold">${new Date(log.date).toLocaleDateString('id-ID', {day:'2-digit', month:'short'})}</td>
+                        <td class="py-6">
+                            <div class="flex items-center gap-3">
+                                <span class="bg-white p-2 rounded-lg border border-slate-100">${log.icon || '🏃'}</span>
+                                <span class="font-bold">${log.type}</span>
+                            </div>
+                        </td>
+                        <td class="py-6 font-bold text-slate-500">${log.duration} mnt</td>
+                        <td class="py-6"><span class="px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-bold">${log.calories} kkal</span></td>
+                        <td class="py-6 text-xl">${log.mood}</td>
+                        <td class="py-6 text-right">
+                            <button onclick="deleteLog(${log.id})" class="text-slate-300 hover:text-red-500 transition px-3 opacity-0 group-hover:opacity-100">&times;</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+            updateDashboard();
+        }
+
+        function deleteLog(id) {
+            logs = logs.filter(l => l.id !== id);
+            localStorage.setItem('fitlife_logs_v5', JSON.stringify(logs));
+            renderLogs();
+        }
+
+        // Modal Logic
+        function toggleModal() {
+            const isHidden = modal.classList.contains('pointer-events-none');
+            if (isHidden) {
+                modal.classList.remove('pointer-events-none', 'opacity-0');
+                modalBox.classList.remove('scale-90');
+                modalBox.classList.add('scale-100');
+                document.getElementById('f-date').valueAsDate = new Date();
+            } else {
+                modal.classList.add('pointer-events-none', 'opacity-0');
+                modalBox.classList.add('scale-90');
+                modalBox.classList.remove('scale-100');
+            }
+        }
+
+        function fillFormOptions() {
+            const select = document.getElementById('f-type');
+            select.innerHTML = masterSports.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
+        }
+
+        sportForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const type = document.getElementById('f-type').value;
+            const dur = document.getElementById('f-dur').value;
+            const sportObj = masterSports.find(s => s.name === type);
+            
+            const newLog = {
+                id: Date.now(),
+                type: type,
+                duration: dur,
+                calories: (sportObj ? sportObj.calPerMin : 5) * dur,
+                mood: document.getElementById('f-mood').value,
+                date: document.getElementById('f-date').value,
+                icon: sportObj ? sportObj.icon : '🏃'
+            };
+
+            logs.unshift(newLog);
+            localStorage.setItem('fitlife_logs_v5', JSON.stringify(logs));
+            renderLogs();
+            toggleModal();
+            showNotif("Berhasil mencatat " + type + "! + " + newLog.calories + " kkal 🔥");
+        });
+
+        // Notifications
+        function showNotif(msg) {
+            document.getElementById('notif-message').innerText = msg;
+            notification.classList.remove('translate-x-full');
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+            }, 3500);
+        }
+
+        function setReminder() {
+            showNotif("Pengingat aktif! Kami akan mengingatkanmu latihan tiap jam 4 sore.");
+        }
+
+        // Run
+        init();
+    </script>
+</body>
+</html>
